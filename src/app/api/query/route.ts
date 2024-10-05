@@ -1,8 +1,9 @@
 import { NextRequest } from "next/server";
 
-export async function GET(request: NextRequest) {
-	const params = request.nextUrl.searchParams;
-	let query = params.get("user") || "";
+export async function POST(request: NextRequest) {
+	const reqBody = await request.json();
+
+	console.log(reqBody);
 
 	const pplxReqBody = {
 		model: "llama-3.1-sonar-large-128k-online",
@@ -12,10 +13,7 @@ export async function GET(request: NextRequest) {
 				content:
 					"You are a helpful Boston University assistant tasked with giving helpful tips to BU Students.",
 			},
-			{
-				role: "user",
-				content: query,
-			},
+			...reqBody,
 		],
 	};
 
