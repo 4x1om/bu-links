@@ -279,7 +279,14 @@ async function initialize(canvas: HTMLCanvasElement)
     loop()
 
     function loop()
-    {
+    {		
+        if (!running)
+		{
+			device.beginPass(device.texture, { load: LoadOperation.CLEAR, color: Color4.BLACK })
+			device.endPass()
+			return
+		}
+
         let position = mouse
         if (button)
         {
@@ -322,7 +329,7 @@ async function initialize(canvas: HTMLCanvasElement)
         device.endPass()
 
         device.submit()
-        if (running) requestAnimationFrame(loop)
+		requestAnimationFrame(loop)
     }
 
     return function()
@@ -348,6 +355,5 @@ async function initialize(canvas: HTMLCanvasElement)
         radiusBuffer.destroy()
 
 		running = false
-		console.log("hi")
     }
 }
