@@ -15,10 +15,9 @@ function mousedown(e: MouseEvent) { if (e.button === 0) button = true }
 function mouseup(e: MouseEvent) { if (e.button === 0) button = false }
 
 function touchmove(e: TouchEvent) { mouse = new Vector2(e.touches[0].clientX, e.touches[0].clientY) }
-function touchstart(e: TouchEvent) { button = true; console.log(e) }
-function touchend(e: TouchEvent) { button = false }
+function touchstart(_: TouchEvent) { button = true }
+function touchend(_: TouchEvent) { button = false }
 
-const enum MouseButton { LEFT, MIDDLE, RIGHT }
 let canvas!: HTMLCanvasElement
 
 async function main()
