@@ -1,54 +1,76 @@
-"use client"
-import { useEffect, useState } from "react"
-import poppins from "./fonts"
+"use client";
+import { FormEvent, useEffect, useState } from "react";
+import poppins from "./fonts";
 
-export default function Home()
-{
-    let [state, setState] = useState(
-    [
-        {
-            user: true,
-            text: "Example question"
-        },
-        {
-            user: false,
-            text: "Example response"
-        },
-        {
-            user: true,
-            text: "Example question again"
-        },
-        {
-            user: false,
-            text: "Example response again"
-        }
-    ])
+export default function Home() {
+	let [input, setInput] = useState("");
+	let [isSystemThinking, setIsSystemThinking] = useState(false);
+	let [messages, setMessages] = useState([
+		{
+			user: true,
+			text: "Example question",
+		},
+		{
+			user: false,
+			text: "Example response",
+		},
+		{
+			user: true,
+			text: "Example question again",
+		},
+		{
+			user: false,
+			text: "Example response again",
+		},
+	]);
 
-    return (
-        <div className="main">
-            <div className="header">
-                <span className={poppins.className}>BUSource</span>
-            </div>
-            <div className="body">
-                <div className="body-main">
-                    {
-                        state.map((response, i) => (
-                            <div className="response" key={i}>
-                                {response.user ? <span className={poppins.className}>Me:</span> : ""}
-                                <span className={poppins.className}>{response.text}</span>
-                            </div>
-                        ))
-                    }
-                </div>
-            </div>
-            <div className="footer">
-                <div className="footer-body">
-                    <form onSubmit={() => console.log("hi")}>
-                            <input type="text" className={poppins.className} />
-                            <input type="submit" value="Send" />
-                    </form>
-                </div>
-            </div>
-        </div>
-    )
+	async function onSubmit(e: FormEvent) {
+		e.preventDefault();
+		setIsSystemThinking(true);
+		const userMsg = { user: true, text: input };
+		setMessages([...messages, userMsg]);
+		let systemMsg;
+		try {
+			const response = await fetch("/api/query?user=" + input);
+			const json = await response.json();
+			systemMsg = { user: false, text: json.message };
+		} catch (err) {
+			console.error(err);
+			systemMsg = { user: false, text: "An error occurred." };
+		}
+
+		setMessages([...messages, userMsg, systemMsg]);
+		setIsSystemThinking(false);
+	}
+
+	return (
+		<div className="main">
+			<div className="header">
+				<span className={poppins.className}>BUSource</span>
+			</div>
+			<div className="body">
+				<div className="body-main">
+					{messages.map((msg, i) => (
+						<div className="response" key={i}>
+							{msg.user ? <span className={poppins.className}>Me:</span> : ""}
+							<span className={poppins.className}>{msg.text}</span>
+						</div>
+					))}
+				</div>
+			</div>
+			<div className="footer">
+				<div className="footer-body">
+					<form onSubmit={onSubmit}>
+						<input
+							type="text"
+							className={poppins.className}
+							value={input}
+							onChange={(e) => setInput(e.target.value)}
+						/>
+						<input type="submit" disabled={isSystemThinking} value="Send" />
+					</form>
+				</div>
+			</div>
+		</div>
+	);
 }
