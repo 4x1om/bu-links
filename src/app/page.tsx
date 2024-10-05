@@ -129,7 +129,7 @@ export default function Home() {
 				body: JSON.stringify(
 					[...messages, userMsg].slice(1).map((msg) => ({
 						role: msg.user ? "user" : "assistant",
-						content: msg.text,
+						content: (msg.user ? "As a BU student or at BU, " : "") + msg.text,
 					}))
 				),
 			});
