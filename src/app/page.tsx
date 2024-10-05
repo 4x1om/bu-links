@@ -1,7 +1,28 @@
 "use client";
-import { FormEvent, useEffect, useState } from "react";
+import { FormEvent, useEffect, useRef, useState } from "react";
 import poppins from "./fonts";
 import Markdown from "react-markdown";
+
+import Device, { ComputePass, ComputePipeline, LoadOperation, RenderPass, RenderPipeline, VertexFormat } from "./lib/Device"
+import { Color3, Color4, Vector2 } from "./lib/Math"
+import { Buffer, BufferFormat, Sampler, SamplerFilterMode, Shader, Texture, TextureFormat } from "./lib/Resource"
+
+import textureCode from "./lib/shaders/texture"
+import fluidSimulationCode from "./lib/shaders/fluid-simulation"
+
+let mouse: Vector2 = Vector2.ZERO
+let button: boolean = false
+
+function mousemove(e: MouseEvent) { mouse = new Vector2(e.clientX, e.clientY) }
+function mousedown(e: MouseEvent) { if (e.button === 0) button = true }
+function mouseup(e: MouseEvent) { if (e.button === 0) button = false }
+
+function touchmove(e: TouchEvent) { mouse = new Vector2(e.touches[0].clientX, e.touches[0].clientY) }
+function touchstart(_: TouchEvent) { button = true }
+function touchend(_: TouchEvent) { button = false }
+
+let canvas!: HTMLCanvasElement
+let init = false
 
 export default function Home() {
 	let [input, setInput] = useState("");
@@ -12,6 +33,40 @@ export default function Home() {
 			text: "Hi! I am your helpful BU assistant. How can I help you today?",
 		},
 	]);
+
+    let canvasRef = useRef(null)
+	useEffect(() =>
+	{
+        if (init) return
+        init = true
+        
+        window.addEventListener("mousemove", mousemove)
+        window.addEventListener("touchmove", touchmove)
+        window.addEventListener("mousedown", mousedown)
+        window.addEventListener("touchstart", touchstart)
+        window.addEventListener("mouseup", mouseup)
+        window.addEventListener("touchend", touchend)
+
+        canvas = canvasRef.current!
+
+		let timer: NodeJS.Timeout | null = null
+		window.addEventListener("resize", () =>
+		{
+			if (timer !== null) clearTimeout(timer)
+			timer = setTimeout(() =>
+			{
+				timer = null
+				resize()
+			}, 100)
+		})
+
+		function resize()
+		{
+			console.log("hi")
+			canvas.width = window.innerWidth
+			canvas.height = window.innerHeight
+		}
+	}, [])
 
 	async function onSubmit(e: FormEvent) {
 		e.preventDefault();
@@ -46,6 +101,7 @@ export default function Home() {
 
 	return (
 		<div className="main">
+			<canvas ref={canvasRef}></canvas>
 			<div className="header">
 				<span className={poppins.className}>BUSource</span>
 			</div>
