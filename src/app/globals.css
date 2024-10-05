@@ -55,8 +55,7 @@ body {
 .body {
     display: flex;
     flex-direction: column-reverse;
-    align-items: center;
-    padding: 16px 32px;
+    padding: 16px;
     flex-grow: 1;
     overflow-y: auto;
 }
@@ -64,8 +63,7 @@ body {
 .body-main {
     display: flex;
     flex-direction: column;
-    width: 1000px;
-    gap: 32px;
+    gap: 16px;
 }
 
 .response {
@@ -103,7 +101,7 @@ body {
     transition: border 0.2s ease-in;
 }
 
-.footer-body input[type=text]:focus {
+.footer-body input[type=text]:focus, .footer-body input[type=text]:hover {
     outline: none;
     border: 1px solid #78b7ff;
 }
