@@ -174,6 +174,29 @@ async function main()
         device.submit()
         requestAnimationFrame(loop)
     }
+
+    return function()
+    {
+        texture.destroy()
+        dimensionsBuffer.destroy()
+        densityDimensionsBuffer.destroy()
+
+        vertexBuffer.destroy()
+
+        velocityBuffer.destroy()
+        previousVelocityBuffer.destroy()
+
+        divergenceBuffer.destroy()
+        curlBuffer.destroy()
+
+        pressureBuffer.destroy()
+        previousPressureBuffer.destroy()
+
+        positionBuffer.destroy()
+        impulseBuffer.destroy()
+        colorBuffer.destroy()
+        radiusBuffer.destroy()
+    }
 }
 
 let init = false

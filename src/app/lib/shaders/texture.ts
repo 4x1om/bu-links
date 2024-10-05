@@ -25,5 +25,5 @@ fn vs(input: VertexInput) -> FragmentInput
 @fragment
 fn fs(input: FragmentInput) -> @location(0) vec4f
 {
-    return textureSample(texture, textureSampler, input.uv);
+    return textureSample(texture, textureSampler, input.uv) * 0.4;
 }`
