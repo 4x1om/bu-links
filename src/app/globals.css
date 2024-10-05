@@ -1,12 +1,16 @@
-@tailwind base;
+/* @tailwind base;
 @tailwind components;
-@tailwind utilities;
+@tailwind utilities; */
 
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  /* --background: #ffffff;
+  --foreground: #171717; */
+    --background: #0c0c0c;
+    --foreground: #ededed;
+    --secondary:  #424242;
 }
 
+/* 
 @media (prefers-color-scheme: dark) {
   :root {
     --background: #0a0a0a;
@@ -14,14 +18,103 @@
   }
 }
 
-body {
-  color: var(--foreground);
-  background: var(--background);
-  font-family: Arial, Helvetica, sans-serif;
-}
-
 @layer utilities {
   .text-balance {
     text-wrap: balance;
   }
+} */
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    color: var(--foreground);
+    background: var(--background);
+    overflow: hidden;
+}
+
+.main {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    height: 100vh;
+}
+
+.header {
+    padding: 8px 16px;
+    border-bottom: 1px solid var(--secondary);
+}
+
+.header span {
+    font-size: 1rem;
+}
+
+.body {
+    display: flex;
+    justify-content: center;
+    padding: 16px 32px;
+    flex-grow: 1;
+}
+
+.body-main {
+    display: flex;
+    flex-direction: column;
+    width: 1000px;
+    gap: 32px;
+}
+
+.response {
+    display: flex;
+    flex-direction: column;
+    border: 1px solid white;
+}
+
+.footer {
+    display: flex;
+    justify-content: center;
+    padding: 16px 32px;
+    border-top: 1px solid var(--secondary);
+}
+
+.footer-body {
+    width: 800px;
+}
+
+.footer-body form {
+    display: flex;
+    width: 100%;
+    gap: 16px;
+}
+
+.footer-body input[type=text] {
+    background: none;
+    color: var(--foreground);
+    flex-grow: 1;
+    padding: 8px 16px;
+    font-size: 1rem;
+    border-radius: 16px;
+    border: 1px solid var(--secondary);
+    transition: border 0.2s ease-in;
+}
+
+.footer-body input[type=text]:focus {
+    outline: none;
+    border: 1px solid #78b7ff;
+}
+
+.footer-body input[type=submit] {
+    background: none;
+    color: var(--foreground);
+    padding: 8px 12px;
+    font-size: 1rem;
+    border-radius: 16px;
+    border: 1px solid var(--secondary);
+    transition: border 0.2s ease-in;
+}
+
+.footer-body input[type=submit]:hover {
+    border: 1px solid #78b7ff;
 }
