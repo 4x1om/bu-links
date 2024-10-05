@@ -12,7 +12,8 @@
     "dotenv": "^16.4.5",
     "next": "14.2.14",
     "react": "^18",
-    "react-dom": "^18"
+    "react-dom": "^18",
+    "react-markdown": "^9.0.1"
   },
   "devDependencies": {
     "@webgpu/types": "^0.1.40",
